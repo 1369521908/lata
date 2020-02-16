@@ -1,11 +1,10 @@
 import request from '@/utils/request'
 
-export function getList(params, page) {
+export function getList(params) {
   return request({
     url: '/lol/hero',
     method: 'get',
     params,
-    page
   })
 }
 

@@ -3,8 +3,8 @@
     <div class="search-box">
       <van-row>
         <form action="/">
-          <van-search v-model="searchOption.search" shape="round" placeholder="亚索/托儿所/剑豪 -> 回车走起" show-action @search="init">
-            <div slot="action" @click="init">搜索</div>
+          <van-search v-model="searchOption.search" shape="round" placeholder="亚索/托儿所/剑豪 -> 回车走起" show-action @search="fetchData">
+            <div slot="action" @click="fetchData">搜索</div>
           </van-search>
         </form>
       </van-row>
@@ -13,7 +13,7 @@
 
     <div class="hero-box">
       <van-cell-group>
-        <van-cell v-for="(d, index) in data" :key="index" :value="calName(d)" :label="calRole(d)" is-link>
+        <van-cell v-for="(d, index) in listOption.legends" :key="index" :value="calName(d)" :label="calRole(d)" is-link>
           <!-- 使用 title 插槽来自定义标题 -->
           <template slot="title">
             <!--          <span class="custom-title">单元格</span>-->
@@ -51,22 +51,29 @@ export default {
         active: 0
       },
       searchOption: {
-        search: ''
+        search: null
       },
       listOption: {
+        legends: [],
         loading: false,
         finished: false
-      },
-      data: []
+      }
     }
   },
   mounted() {
-    this.init()
+    this.fetchData()
   },
   methods: {
-    init() {
-      getList({ pageSize: 20 }).then(response => {
-        this.data = response.data.records
+    fetchData() {
+      const page = {
+        currentPage: 0,
+        pageSize: 20
+      }
+      const params = {
+        name: !this.searchOption.search ? null : this.searchOption.search
+      }
+      getList(Object.assign(page, params)).then(response => {
+        this.listOption.legends = response.data.records
       })
     },
     calName(hero) {

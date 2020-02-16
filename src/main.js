@@ -18,6 +18,10 @@ import '@/permission' // permission control
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
+import Vconsole from 'vconsole'
+
+const vConsole = new Vconsole()
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -37,6 +41,8 @@ if (process.env.NODE_ENV === 'production') {
 // Vue.use(ElementUI)
 
 Vue.use(Vant)
+
+Vue.use(vConsole)
 
 Vue.config.productionTip = false
 

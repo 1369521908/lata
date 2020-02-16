@@ -39,9 +39,25 @@ export const constantRoutes = [
   {
     path: '/',
     // redirect: '/legends',
+    name: 'Main',
+    component: () => import('@/views/main/index'),
+    meta: { title: 'Main', icon: 'legends' },
+    hidden: false
+  },
+  {
+    path: '/Legends',
+    // redirect: '/legends',
     name: 'Legends',
     component: () => import('@/views/hero/index'),
     meta: { title: 'Legends', icon: 'legends' },
+    hidden: false
+  },
+  {
+    path: '/Legend',
+    // redirect: '/legends',
+    name: 'Legend',
+    component: () => import('@/views/legend/index'),
+    meta: { title: 'Legend', icon: 'legend' },
     hidden: false
   },
   {
