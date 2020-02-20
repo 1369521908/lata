@@ -3,17 +3,29 @@
     <div class="search-box">
       <van-row>
         <form action="/">
-          <van-search v-model="searchOption.search" shape="round" placeholder="亚索/托儿所/剑豪 -> 回车走起" show-action @search="fetchData">
+          <van-search
+            v-model="searchOption.search"
+            shape="round"
+            placeholder="亚索/托儿所/剑豪 -> 回车走起"
+            show-action
+            @search="fetchData"
+          >
             <div slot="action" @click="fetchData">搜索</div>
           </van-search>
         </form>
       </van-row>
-      <van-row />
     </div>
 
     <div class="hero-box">
       <van-cell-group>
-        <van-cell v-for="(d, index) in listOption.legends" :key="index" :value="calName(d)" :label="calRole(d)" is-link>
+        <van-cell
+          v-for="(legend, index) in listOption.legends"
+          :key="index"
+          :value="legend.name + '/' + legend.title"
+          :label="calRole(legend)"
+          is-link
+          @click="legendDetail(legend)"
+        >
           <!-- 使用 title 插槽来自定义标题 -->
           <template slot="title">
             <!--          <span class="custom-title">单元格</span>-->
@@ -22,7 +34,7 @@
               class="img"
               width="50px"
               height="50px"
-              :src="d.avatar"
+              :src="legend.avatar"
             />
           </template>
         </van-cell>
@@ -44,6 +56,7 @@
 <script>
 import { role_zh } from '@/utils/enums'
 import { getList } from '@/api/hero'
+
 export default {
   data() {
     return {
@@ -64,6 +77,9 @@ export default {
     this.fetchData()
   },
   methods: {
+    calRole(hero) {
+      return role_zh(hero.role).toString().replace(',', '/')
+    },
     fetchData() {
       const page = {
         currentPage: 0,
@@ -76,11 +92,8 @@ export default {
         this.listOption.legends = response.data.records
       })
     },
-    calName(hero) {
-      return hero.name + ' / ' + hero.title
-    },
-    calRole(hero) {
-      return role_zh(hero.role).toString().replace(',', '/')
+    legendDetail(legend) {
+      this.$router.push({ name: 'Legend', params: { heroId: legend.heroId }})
     }
   }
 }
@@ -89,15 +102,17 @@ export default {
 <style scoped>
 
   .search-box {
-    width:100%;
-    /*position: fixed;*/
+    width: 100%;
+    position: fixed;
     top: 0;
     z-index: 999;
+    /*margin-bottom: 10%;*/
   }
 
   .hero-box {
     width: 100%;
     overflow: auto;
+    margin-top: 15%;
   }
 
   .img {

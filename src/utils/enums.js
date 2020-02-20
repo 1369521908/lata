@@ -8,10 +8,12 @@ export const role = {
 }
 
 export function role_zh(r) {
-  const roles = r.replace('[', '').replace(']', '').replace(' ', '').split(',')
   const res = []
-  for (const i in roles) {
-    res.push(role[roles[i]])
+  if (r) {
+    const roles = r.replace('[', '').replace(']', '').replace(' ', '').split(',')
+    for (const i in roles) {
+      res.push(role[roles[i]])
+    }
+    return res
   }
-  return res
 }
