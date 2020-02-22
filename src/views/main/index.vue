@@ -36,7 +36,7 @@
 <script>
 export default {
   components: {
-    Legends: () => import ('@/views/hero/index')
+    Legends: () => import ('@/views/legends/index')
   },
   data() {
     return {

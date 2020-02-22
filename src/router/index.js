@@ -48,7 +48,7 @@ export const constantRoutes = [
     path: '/Legends',
     // redirect: '/legends',
     name: 'Legends',
-    component: () => import('@/views/hero/index'),
+    component: () => import('@/views/legends/index'),
     meta: { title: 'Legends', icon: 'legends' },
     hidden: false
   },

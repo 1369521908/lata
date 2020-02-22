@@ -12,6 +12,9 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import axios from 'axios'
+import qs from 'qs.js'
+
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -43,6 +46,11 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(Vant)
 
 Vue.use(vConsole)
+
+// 全局注册，使用方法为:this.$axios
+Vue.prototype.$axios = axios
+// 全局注册，使用方法为:this.qs
+Vue.prototype.qs = qs
 
 Vue.config.productionTip = false
 

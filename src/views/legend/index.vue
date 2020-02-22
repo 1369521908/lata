@@ -2,7 +2,7 @@
   <div>
     <van-row>
       <!--图标-->
-      <van-cell :title="legend.name+ ' ' + legend.title" :label="'金币: ' + legend.name + ' 点券: ' + legend.title + '\n' + calRole(legend)">
+      <van-cell :title="legend.name+ ' ' + legend.title" :label="'金币: ' + 0 + ' 点券: ' + 0 + '\n' +setRole(legend)">
         <van-image
           :width="imgOption.width"
           :height="imgOption.height"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { get, getDetail } from '@/api/hero'
+import { getDetail, price } from '@/api/hero'
 import { role_zh } from '@/utils/enums'
 export default {
   props: {
@@ -45,8 +45,11 @@ export default {
       legend: {
         heroId: 1,
         avatar: '',
-        role: '[mage]'
-      }
+        title: '',
+        name: '',
+        role: '[]'
+      },
+      price: {}
     }
   },
   created() {
@@ -55,7 +58,7 @@ export default {
   mounted() {
   },
   methods: {
-    calRole(hero) {
+    setRole(hero) {
       if (hero !== null && hero !== 'undefined') {
         return role_zh(hero.role).toString().replace(',', '/')
       } else {
@@ -65,11 +68,13 @@ export default {
     fetchData() {
       this.legend.heroId = this.$route.params.heroId
       getDetail(this.legend.heroId).then(response => {
-        console.log(response)
         this.legend = response.data
       })
 
-      get(this.legend.heroId).then(response => {
+      // 价格信息
+      price(this.legend.heroId).then(response => {
+        console.log(response)
+        this.price = response.data.data
       })
     }
   }

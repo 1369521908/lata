@@ -43,7 +43,7 @@
 
     <!--    <van-list-->
     <!--      v-model="listOption.loading"-->
-    <!--      class="hero-box"-->
+    <!--      class="legends-box"-->
     <!--      :finished="listOption.finished"-->
     <!--      finished-text="没有更多了"-->
     <!--      @load="init"-->
