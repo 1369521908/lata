@@ -1,22 +1,22 @@
 <template>
   <div>
 
-    <van-row style="margin-bottom: 10%">
+    <van-row class="dashboard">
       <transition name="fade">
         <div v-if="active === 'legend'">
-          <Legends />
+          <legends />
         </div>
         <div v-if="active === 'runes'">
-          <Legends />
+          <legend-data />
         </div>
         <div v-if="active === 'summonerSkill'">
-          <Legends />
+          <summoner-skill />
         </div>
         <div v-if="active === 'item'">
-          <Legends />
+          <items />
         </div>
         <div v-if="active === 'me'">
-          <Legends />
+          <me />
         </div>
       </transition>
     </van-row>
@@ -36,7 +36,11 @@
 <script>
 export default {
   components: {
-    Legends: () => import ('@/views/legends/index')
+    legends: () => import ('@/views/legends/index'),
+    legendData: () => import ('@/views/runes/index'),
+    summonerSkill: () => import ('@/views/summonerSkill/index'),
+    items: () => import ('@/views/items/index'),
+    me: () => import ('@/views/me/index')
   },
   data() {
     return {
@@ -45,12 +49,15 @@ export default {
   },
   methods: {
     onChange() {
-
     }
   }
 }
 </script>
 
 <style scoped>
+
+  .dashboard {
+    margin-bottom: 10%;
+  }
 
 </style>

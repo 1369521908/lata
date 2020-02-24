@@ -21,8 +21,8 @@
         <van-cell
           v-for="(legend, index) in listOption.legends"
           :key="index"
-          :value="legend.name + '/' + legend.title"
-          :label="calRole(legend)"
+          :label="legend.name + ' ' + legend.title"
+          :value="calRole(legend)"
           is-link
           @click="legendDetail(legend)"
         >
@@ -48,7 +48,7 @@
     <!--      finished-text="没有更多了"-->
     <!--      @load="init"-->
     <!--    >-->
-    <!--      &lt;!&ndash;      <van-cell v-for="item in list" :key="item" :title="item" />&ndash;&gt;-->
+    <!--      &lt;!&ndash;      <van-cell v-for="items in list" :key="items" :title="items" />&ndash;&gt;-->
     <!--    </van-list>-->
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     calRole(hero) {
-      return role_zh(hero.role).toString().replace(',', '/')
+      return role_zh(hero.role).toString().replace(',', ' ')
     },
     fetchData() {
       const page = {

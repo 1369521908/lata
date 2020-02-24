@@ -10,13 +10,25 @@
         />
       </van-cell>
 
-      <!--数据-->
       <van-tabs v-model="tabOption.active">
-        <van-tab title="数据">数据</van-tab>
-        <van-tab title="版本">版本</van-tab>
-        <van-tab title="羁绊">羁绊</van-tab>
-        <van-tab title="音效">音效</van-tab>
-        <van-tab title="原画">原画</van-tab>
+        <van-tab title="数据">
+          <legend-data :hero-id="legend.heroId" />
+        </van-tab>
+        <van-tab title="版本">
+          <legend-version :hero-id="legend.heroId" />
+        </van-tab>
+        <van-tab title="羁绊">
+          <legend-relate :legend="legend.heroId" />
+        </van-tab>
+        <van-tab title="音效">
+          <legend-sound :legend="legend.heroId" />
+        </van-tab>
+        <van-tab title="原画">
+          <legend-artist :legend="legend.heroId" />
+        </van-tab>
+        <van-tab title="模型">
+          <legend-model :legend="legend.heroId" />
+        </van-tab>
       </van-tabs>
 
     </van-row>
@@ -25,9 +37,17 @@
 </template>
 
 <script>
-import { getDetail, price } from '@/api/hero'
+import { getDetail } from '@/api/hero'
 import { role_zh } from '@/utils/enums'
 export default {
+  components: {
+    legendData: () => import('@/views/legend/data/index'),
+    legendVersion: () => import('@/views/legend/version/index'),
+    legendRelate: () => import('@/views/legend/relate/index'),
+    legendSound: () => import('@/views/legend/sound/index'),
+    legendArtist: () => import('@/views/legend/artist/index'),
+    legendModel: () => import('@/views/legend/model/index')
+  },
   props: {
   },
   data() {
@@ -72,10 +92,10 @@ export default {
       })
 
       // 价格信息
-      price(this.legend.heroId).then(response => {
+      /* price(this.legend.heroId).then(response => {
         console.log(response)
         this.price = response.data.data
-      })
+      })*/
     }
   }
 }
