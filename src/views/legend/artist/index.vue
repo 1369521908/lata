@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p>英雄羁绊</p>
+  <div style="align-content: center">
+    <p>英雄原画</p>
   </div>
 </template>
 

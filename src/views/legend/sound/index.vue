@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>英雄羁绊</p>
+    <p>英雄语音</p>
   </div>
 </template>
 
