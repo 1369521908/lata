@@ -1,37 +1,46 @@
 <template>
   <div>
-    <van-row>
-      <!--图标-->
-      <van-cell :title="legend.name+ ' ' + legend.title" :label="'金币: ' + 0 + ' 点券: ' + 0 + '\n' +setRole(legend)">
-        <van-image
-          :width="imgOption.width"
-          :height="imgOption.height"
-          :src="legend.avatar"
-        />
-      </van-cell>
+    <!--基本信息-->
+    <van-cell>
+      <van-image
+        :width="imgOption.width"
+        :height="imgOption.height"
+        :src="legend.avatar"
+      />
+      <template slot="title">
+        <span>{{ legend.name+ ` ` + legend.title }}</span>
+      </template>
+      <template slot="label">
+        <span style="color: #ff5005">{{ legend.alias }}</span>
+        <br>
+        <span>金币: 0</span>
+        <span>点券: 0</span>
+        <br>
+        <span>{{ setRole(legend) }}</span>
+      </template>
+    </van-cell>
 
-      <van-tabs v-model="tabOption.active">
-        <van-tab title="数据">
-          <legend-data :hero-id="legend.heroId" />
-        </van-tab>
-        <van-tab title="版本">
-          <legend-version :hero-id="legend.heroId" />
-        </van-tab>
-        <van-tab title="羁绊">
-          <legend-relate :legend="legend.heroId" />
-        </van-tab>
-        <van-tab title="音效">
-          <legend-sound :legend="legend.heroId" />
-        </van-tab>
-        <van-tab title="原画">
-          <legend-artist :legend="legend.heroId" />
-        </van-tab>
-        <van-tab title="模型">
-          <legend-model :legend="legend.heroId" />
-        </van-tab>
-      </van-tabs>
-
-    </van-row>
+    <!--tabs-->
+    <van-tabs v-model="tabOption.active">
+      <van-tab title="数据">
+        <legend-data :hero-id="legend.heroId" />
+      </van-tab>
+      <van-tab title="版本">
+        <legend-version :hero-id="legend.heroId" />
+      </van-tab>
+      <van-tab title="羁绊">
+        <legend-relate :legend="legend.heroId" />
+      </van-tab>
+      <van-tab title="音效">
+        <legend-sound :legend="legend.heroId" />
+      </van-tab>
+      <van-tab title="原画">
+        <legend-artist :legend="legend.heroId" />
+      </van-tab>
+      <van-tab title="模型">
+        <legend-model :legend="legend.heroId" />
+      </van-tab>
+    </van-tabs>
 
   </div>
 </template>
@@ -61,7 +70,7 @@ export default {
       tabOption: {
         active: 0
       },
-      // 英雄数据对象
+      // 英雄对象
       legend: {
         heroId: 1,
         avatar: '',
@@ -78,19 +87,20 @@ export default {
   mounted() {
   },
   methods: {
+    // 计算英雄定位
     setRole(hero) {
-      if (hero !== null && hero !== 'undefined') {
-        return role_zh(hero.role).toString().replace(',', '/')
+      if (hero) {
+        return role_zh(hero.role).toString().replace(',', ' ')
       } else {
         return ''
       }
     },
     fetchData() {
-      this.legend.heroId = this.$route.params.heroId
-      getDetail(this.legend.heroId).then(response => {
-        this.legend = response.data
-      })
-
+      if (this.$route.query.heroId) {
+        getDetail(this.$route.query.heroId).then(response => {
+          this.legend = response.data
+        })
+      }
       // 价格信息
       /* price(this.legend.heroId).then(response => {
         console.log(response)

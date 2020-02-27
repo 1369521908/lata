@@ -93,7 +93,7 @@ export default {
       })
     },
     legendDetail(legend) {
-      this.$router.push({ name: 'Legend', params: { heroId: legend.heroId }})
+      this.$router.push({ name: 'Legend', params: { heroId: legend.heroId }, query: { heroId: legend.heroId }})
     }
   }
 }
