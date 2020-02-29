@@ -17,3 +17,5 @@ export function role_zh(r) {
     return res
   }
 }
+
+export const spellSort = ['passive', 'q', 'w', 'e', 'r']

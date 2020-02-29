@@ -21,9 +21,12 @@
     </van-cell>
 
     <!--tabs-->
-    <van-tabs v-model="tabOption.active">
+    <van-tabs v-model="tabOption.active" animated swipeable>
       <van-tab title="数据">
-        <legend-data :hero-id="legend.heroId" />
+        <!--<legend-data :hero-id="legend.heroId" />-->
+      </van-tab>
+      <van-tab title="技能">
+        <legend-spell :hero-id="legend.heroId" />
       </van-tab>
       <van-tab title="版本">
         <legend-version :hero-id="legend.heroId" />
@@ -51,6 +54,7 @@ import { role_zh } from '@/utils/enums'
 export default {
   components: {
     legendData: () => import('@/views/legend/data/index'),
+    legendSpell: () => import('@/views/legend/spell/index'),
     legendVersion: () => import('@/views/legend/version/index'),
     legendRelate: () => import('@/views/legend/relate/index'),
     legendSound: () => import('@/views/legend/sound/index'),

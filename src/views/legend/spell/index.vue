@@ -8,7 +8,7 @@
       <van-col span="12">
 
         <!--属性-->
-        <van-row>
+        <van-row style="font-size: 0.8rem;">
 
           <van-col span="12">
             <div>
@@ -82,47 +82,46 @@
     <!--技能-->
     <van-row class="van-cell">
       <van-col span="24">
+        <van-cell-group>
+          <van-cell v-for="(spell, index) in spells" :key="index">
 
-        <van-cell v-for="(spell, index) in spells" :key="index">
+            <van-row>
+              <!--技能图标-->
+              <van-image
+                width="4rem"
+                height="4rem"
+                fit="contain"
+                :src="spell.abilityIconPath"
+              />
+              <span v-show="spell.spellKey === 'passive'" style="color: purple">{{ spell.name }}&nbsp;(被动)</span>
+              <span v-show="spell.spellKey !== 'passive'" style="color: purple">{{ spell.spellKey.toLocaleString().toUpperCase() + ' ' + spell.name }}</span>
+            </van-row>
 
-          <van-row>
-            <!--技能图标-->
-            <van-image
-              width="3rem"
-              height="3rem"
-              fit="contain"
-              :src="spell.abilityIconPath"
-            />
-            <span v-show="spell.spellKey === 'passive'" style="color: purple">{{ spell.name }}(被动)</span>
-            <span v-show="spell.spellKey !== 'passive'" style="color: purple">{{ spell.spellKey.toLocaleString().toUpperCase() + ' ' + spell.name }}</span>
-          </van-row>
+            <!--冷却时间-->
+            <van-row style="color: #20a0ff; font-size: 0.8rem">
+              <span v-show="spell.cost === 'false'">冷却时间 无</span>
+              <span v-show="spell.cost !== 'false'">冷却时间 {{ spellToObj(spell).cooldown }} </span>
+            </van-row>
 
-          <!--冷却时间-->
-          <van-row style="color: #20a0ff; font-size: 0.7rem">
-            <span v-show="spell.cost === 'false'">冷却时间 无</span>
-            <span v-show="spell.cost !== 'false'">冷却时间 {{ spellToObj(spell).cooldown }} </span>
-          </van-row>
+            <!--技能消耗-->
+            <van-row style="color: #ff6c00; font-size: 0.8rem">
+              <span v-show="spell.cost === 'false'">技能消耗 无 </span>
+              <span v-show="spell.cost !== 'false'">技能消耗 {{ spellToObj(spell).cost }} </span>
+            </van-row>
 
-          <!--技能消耗-->
-          <van-row style="color: #ff6c00; font-size: 0.7rem">
-            <span v-show="spell.cost === 'false'">技能消耗 无 </span>
-            <span v-show="spell.cost !== 'false'">技能消耗 {{ spellToObj(spell).cost }} </span>
-          </van-row>
+            <!--技能范围-->
+            <van-row style="color: #001cff; font-size: 0.8rem">
+              <span v-show="spell.cost === 'false'">技能范围 无 </span>
+              <span v-show="spell.cost !== 'false'">技能范围 {{ spellToObj(spell).range }} </span>
+            </van-row>
 
-          <!--技能范围-->
-          <van-row style="color: #001cff; font-size: 0.7rem">
-            <span v-show="spell.cost === 'false'">技能范围 无 </span>
-            <span v-show="spell.cost !== 'false'">技能范围 {{ spellToObj(spell).range }} </span>
-          </van-row>
+            <!--技能描述-->
+            <van-row>
+              <span v-html="spell.spellKey === 'passive' ? spell.description : spell.dynamicDescription" />
+            </van-row>
 
-          <!--技能描述-->
-          <van-row>
-            <span v-show="!convertMode" v-html="spell.description" />
-            <span v-html="spell.dynamicDescription" />
-          </van-row>
-
-        </van-cell>
-        <br>
+          </van-cell>
+        </van-cell-group>
       </van-col>
     </van-row>
 
