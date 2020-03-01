@@ -14,6 +14,7 @@ import router from './router'
 
 import axios from 'axios'
 import qs from 'qs.js'
+import _ from 'lodash'
 
 import '@/icons' // icon
 import '@/permission' // permission control
@@ -51,6 +52,8 @@ Vue.use(vConsole)
 Vue.prototype.$axios = axios
 // 全局注册，使用方法为:this.qs
 Vue.prototype.qs = qs
+// 全局注册，使用方法为:this._
+Vue.prototype._ = _
 
 Vue.config.productionTip = false
 

@@ -2,12 +2,12 @@
   <div>
 
     <!--基本属性值-->
-    <van-row class="van-cell" style="height: 20%;">
+    <!--<van-row class="van-cell" style="height: 20%;">
 
-      <!--左边-->
+      &lt;!&ndash;左边&ndash;&gt;
       <van-col span="12">
 
-        <!--属性-->
+        &lt;!&ndash;属性&ndash;&gt;
         <van-row style="font-size: 0.8rem;">
 
           <van-col span="12">
@@ -48,7 +48,7 @@
 
         </van-row>
 
-        <!--广告位?-->
+        &lt;!&ndash;广告位?&ndash;&gt;
         <van-row v-show="false">
           <van-col span="12">
             <span>
@@ -68,61 +68,80 @@
 
       </van-col>
 
-      <!--右边-->
+      &lt;!&ndash;右边&ndash;&gt;
       <van-col span="12">
-        <!--width="3rem"-->
-        <!--height="3rem"-->
+        &lt;!&ndash;width="3rem"&ndash;&gt;
+        &lt;!&ndash;height="3rem"&ndash;&gt;
         <van-image
           fit="contain"
           :src="skins[0].loadingImg"
         />
       </van-col>
-    </van-row>
+    </van-row>-->
 
     <!--技能-->
     <van-row class="van-cell">
-      <van-col span="24">
-        <van-cell-group>
-          <van-cell v-for="(spell, index) in spells" :key="index">
+      <van-cell-group>
+        <van-cell v-for="(spell, index) in spells" :key="index">
 
-            <van-row>
-              <!--技能图标-->
-              <van-image
-                width="4rem"
-                height="4rem"
-                fit="contain"
-                :src="spell.abilityIconPath"
-              />
-              <span v-show="spell.spellKey === 'passive'" style="color: purple">{{ spell.name }}&nbsp;(被动)</span>
-              <span v-show="spell.spellKey !== 'passive'" style="color: purple">{{ spell.spellKey.toLocaleString().toUpperCase() + ' ' + spell.name }}</span>
-            </van-row>
+          <van-row>
+            <!--技能图标-->
+            <van-image
+              width="4rem"
+              height="4rem"
+              fit="contain"
+              :src="spell.abilityIconPath"
+            />
+            <span v-show="spell.spellKey === 'passive'" style="color: purple">{{ spell.name }}&nbsp;(被动)</span>
+            <span v-show="spell.spellKey !== 'passive'" style="color: purple">{{ spell.spellKey.toLocaleString().toUpperCase() + ' ' + spell.name }}</span>
+          </van-row>
 
-            <!--冷却时间-->
-            <van-row style="color: #20a0ff; font-size: 0.8rem">
-              <span v-show="spell.cost === 'false'">冷却时间 无</span>
-              <span v-show="spell.cost !== 'false'">冷却时间 {{ spellToObj(spell).cooldown }} </span>
-            </van-row>
+          <!--冷却时间-->
+          <van-row style="color: #20a0ff; font-size: 0.8rem">
+            <span v-show="spell.cost === 'false'">冷却时间 无</span>
+            <span v-show="spell.cost !== 'false'">冷却时间 {{ spellToObj(spell).cooldown }} </span>
+          </van-row>
 
-            <!--技能消耗-->
-            <van-row style="color: #ff6c00; font-size: 0.8rem">
-              <span v-show="spell.cost === 'false'">技能消耗 无 </span>
-              <span v-show="spell.cost !== 'false'">技能消耗 {{ spellToObj(spell).cost }} </span>
-            </van-row>
+          <!--技能消耗-->
+          <van-row style="color: #ff6c00; font-size: 0.8rem">
+            <span v-show="spell.cost === 'false'">技能消耗 无 </span>
+            <span v-show="spell.cost !== 'false'">技能消耗 {{ spellToObj(spell).cost }} </span>
+          </van-row>
 
-            <!--技能范围-->
-            <van-row style="color: #001cff; font-size: 0.8rem">
-              <span v-show="spell.cost === 'false'">技能范围 无 </span>
-              <span v-show="spell.cost !== 'false'">技能范围 {{ spellToObj(spell).range }} </span>
-            </van-row>
+          <!--技能范围-->
+          <van-row style="color: #001cff; font-size: 0.8rem">
+            <span v-show="spell.cost === 'false'">技能范围 无 </span>
+            <span v-show="spell.cost !== 'false'">技能范围 {{ spellToObj(spell).range }} </span>
+          </van-row>
 
-            <!--技能描述-->
-            <van-row>
-              <span v-html="spell.spellKey === 'passive' ? spell.description : spell.dynamicDescription" />
-            </van-row>
+          <!--技能描述-->
+          <van-row>
+            <span v-html="spell.spellKey === 'passive' ? spell.description : spell.dynamicDescription" />
+          </van-row>
 
-          </van-cell>
-        </van-cell-group>
-      </van-col>
+        </van-cell>
+      </van-cell-group>
+    </van-row>
+
+    <!--对线技巧-->
+    <!--我方-->
+    <van-row class="van-cell">
+      <van-cell>
+        <span style="color: blue">使用</span>
+        <div v-for="(tip, index) in JSON.parse(legend.allytips || '[]')" :key="index">
+          <span v-html="tip" />
+        </div>
+      </van-cell>
+    </van-row>
+
+    <!--对方-->
+    <van-row class="van-cell">
+      <van-cell>
+        <span style="color: red">应对</span>
+        <div v-for="(tip, index) in JSON.parse(legend.allytips || '[]')" :key="index">
+          <span v-html="tip" />
+        </div>
+      </van-cell>
     </van-row>
 
   </div>
@@ -164,7 +183,7 @@ export default {
       // 英雄明细对象
       legend: {
         alias: 'Annie',
-        allytips: '',
+        allytips: '[]',
         armor: 19,
         armorperlevel: 4,
         attack: 2,

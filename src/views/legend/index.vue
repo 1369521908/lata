@@ -21,9 +21,9 @@
     </van-cell>
 
     <!--tabs-->
-    <van-tabs v-model="tabOption.active" animated swipeable>
+    <van-tabs v-model="tabOption.active" animated swipeable sticky @click="onChange">
       <van-tab title="数据">
-        <!--<legend-data :hero-id="legend.heroId" />-->
+        <legend-data :hero-id="legend.heroId" />
       </van-tab>
       <van-tab title="技能">
         <legend-spell :hero-id="legend.heroId" />
@@ -110,6 +110,10 @@ export default {
         console.log(response)
         this.price = response.data.data
       })*/
+    },
+    onChange(name, title) {
+      console.log(name)
+      this.$emit('preViewClose')
     }
   }
 }

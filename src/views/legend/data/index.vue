@@ -75,55 +75,81 @@
         <van-image
           fit="contain"
           :src="skins[0].loadingImg"
+          @click="preView"
         />
+
+        <!--图片预览-->
+        <van-image-preview ref="preview" v-model="preViewOption.show" :images="preViewOption.images" @change="preViewChange">
+          <template v-slot:index>
+            <span>{{ preViewOption.name }}</span>
+            <span>{{ (preViewOption.index+ 1) + '/' + preViewOption.images.length }}</span>
+          </template>
+        </van-image-preview>
       </van-col>
     </van-row>
 
-    <!--技能-->
+    <span>基本信息</span>
+    <!--基本信息-->
     <van-row class="van-cell">
-      <van-col span="24">
 
-        <van-cell v-for="(spell, index) in spells" :key="index">
+      <van-row>
+        <div>
 
-          <van-row>
-            <!--技能图标-->
-            <van-image
-              width="3rem"
-              height="3rem"
-              fit="contain"
-              :src="spell.abilityIconPath"
-            />
-            <span v-show="spell.spellKey === 'passive'" style="color: purple">{{ spell.name }}(被动)</span>
-            <span v-show="spell.spellKey !== 'passive'" style="color: purple">{{ spell.spellKey.toLocaleString().toUpperCase() + ' ' + spell.name }}</span>
-          </van-row>
+          <span>移动速度:</span>
+          <span class="hero-attribute">{{ legend.movespeed }}</span>
+          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
 
-          <!--冷却时间-->
-          <van-row style="color: #20a0ff; font-size: 0.7rem">
-            <span v-show="spell.cost === 'false'">冷却时间 无</span>
-            <span v-show="spell.cost !== 'false'">冷却时间 {{ spellToObj(spell).cooldown }} </span>
-          </van-row>
+          <span>攻击距离:</span>
+          <span class="hero-attribute">{{ legend.attackrange }}</span><br>
+          <!--<span class="hero-attribute"> + {{ legend.attackrange }}/每级</span><br>-->
 
-          <!--技能消耗-->
-          <van-row style="color: #ff6c00; font-size: 0.7rem">
-            <span v-show="spell.cost === 'false'">技能消耗 无 </span>
-            <span v-show="spell.cost !== 'false'">技能消耗 {{ spellToObj(spell).cost }} </span>
-          </van-row>
+          <span>暴击:</span>
+          <span class="hero-attribute">{{ legend.crit }}</span><br>
+          <!--<span class="hero-attribute"> + {{ legend.attackrange }}/每级</span><br>-->
 
-          <!--技能范围-->
-          <van-row style="color: #001cff; font-size: 0.7rem">
-            <span v-show="spell.cost === 'false'">技能范围 无 </span>
-            <span v-show="spell.cost !== 'false'">技能范围 {{ spellToObj(spell).range }} </span>
-          </van-row>
+          <span>攻击力:</span>
+          <span class="hero-attribute">{{ legend.attackdamage }}</span>
+          <span class="hero-attribute-change"> + {{ legend.attackdamageperlevel }}/每级</span><br>
 
-          <!--技能描述-->
-          <van-row>
-            <span v-show="!convertMode" v-html="spell.description" />
-            <span v-html="spell.dynamicDescription" />
-          </van-row>
+          <span>攻击速度:</span>
+          <span class="hero-attribute">{{ legend.attackspeed }}</span>
+          <span class="hero-attribute-change"> + {{ legend.attackspeedperlevel / 100 }}/每级</span><br>
 
-        </van-cell>
-        <br>
-      </van-col>
+          <span>施法前摇:</span>
+          <span class="hero-attribute">{{ legend.spellblock }}</span>
+          <span class="hero-attribute-change"> - {{ legend.spellblockperlevel }}/每级</span><br>
+
+          <span>护甲:</span>
+          <span class="hero-attribute">{{ legend.armor }}</span>
+          <span class="hero-attribute-change"> + {{ legend.armorperlevel }}/每级</span><br>
+
+          <span>法术抗性:</span>
+          <span class="hero-attribute">{{ legend.movespeed }}</span>
+          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
+
+          <span>生命值:</span>
+          <span class="hero-attribute">{{ legend.hp }}</span>
+          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
+
+          <span>法力值:</span>
+          <span class="hero-attribute">{{ legend.mp }}</span>
+          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
+
+          <span>生命回复:/5秒</span>
+          <span class="hero-attribute">{{ legend.hpregen }}/5秒</span>
+          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
+
+          <span>法力回复:</span>
+          <span class="hero-attribute">{{ legend.mpregen }}/5秒</span>
+          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
+
+          <span>法力回复:</span>
+          <span class="hero-attribute">{{ legend.mpregen }}/5秒</span>
+          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
+
+        </div>
+      </van-row>
+
     </van-row>
 
   </div>
@@ -161,6 +187,14 @@ export default {
         }
         ],
         text: ['物理', '魔法', '防御', '操作']
+      },
+      // 图片预览组件设置
+      preViewOption: {
+        show: false,
+        index: 0,
+        name: '',
+        title: '',
+        images: []
       },
       // 英雄明细对象
       legend: {
@@ -249,6 +283,9 @@ export default {
     this.fetchData()
   },
   mounted() {
+  },
+  destroyed() {
+    this.preViewOption.show = false
   },
   methods: {
     // 初始化
@@ -350,6 +387,24 @@ export default {
         cooldown: cool,
         range: range
       }
+    },
+    // 图片预览
+    preView() {
+      this.preViewOption.images = this._.map(this.skins.filter((s, index) => {
+        return s.loadingImg
+      }), 'loadingImg')
+      this.preViewOption.show = true
+
+      this.preViewOption.name = this.skins[0].name
+    },
+    // 图片预览改变
+    preViewChange(index) {
+      this.preViewOption.index = index
+      this.preViewOption.name = this.skins.filter((i, index) => { return i.loadingImg })[index].name
+    },
+    // 图片预览关闭
+    preViewClose() {
+      this.preViewOption.show = false
     }
   }
 }
@@ -369,4 +424,13 @@ export default {
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
   }
+
+  .hero-attribute {
+    color: orangered;
+  }
+
+  .hero-attribute-change {
+    color: blueviolet;
+  }
+
 </style>
