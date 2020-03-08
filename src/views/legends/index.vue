@@ -17,40 +17,28 @@
     </div>
 
     <div class="hero-box">
-      <van-cell-group>
-        <van-cell
-          v-for="(legend, index) in listOption.legends"
-          :key="index"
-          :label="legend.name + ' ' + legend.title"
-          :value="calRole(legend)"
-          is-link
-          @click="legendDetail(legend)"
-        >
-          <!-- 使用 title 插槽来自定义标题 -->
-          <template slot="title">
-            <!--          <span class="custom-title">单元格</span>-->
-            <!--          <van-tag type="danger">标签</van-tag>-->
-            <van-image
-              class="img"
-              width="50px"
-              height="50px"
-              :src="legend.avatar"
-            />
-          </template>
-        </van-cell>
-      </van-cell-group>
-    </div>
+      <!--<van-pull-refresh v-model="listOption.refreshing" @refresh="fetchData">
 
-    <!--    <van-list-->
-    <!--      v-model="listOption.loading"-->
-    <!--      class="legends-box"-->
-    <!--      :finished="listOption.finished"-->
-    <!--      finished-text="没有更多了"-->
-    <!--      @load="init"-->
-    <!--    >-->
-    <!--      &lt;!&ndash;      <van-cell v-for="items in list" :key="items" :title="items" />&ndash;&gt;-->
-    <!--    </van-list>-->
+      </van-pull-refresh>-->
+      <van-cell
+        v-for="(legend, index) in listOption.legends"
+        :key="index"
+        :label="legend.name + ' ' + legend.title"
+        :value="calRole(legend)"
+        is-link
+        @click="legendDetail(legend)"
+      >
+        <!-- 使用 title 插槽来自定义标题 -->
+        <template slot="title">
+          <van-image
+            class="img"
+            :src="legend.avatar"
+          />
+        </template>
+      </van-cell>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -67,9 +55,10 @@ export default {
         search: null
       },
       listOption: {
+        currentPage: 0,
+        pageSize: 999,
         legends: [],
-        loading: false,
-        finished: false
+        refreshing: false
       }
     }
   },
@@ -78,18 +67,23 @@ export default {
   },
   methods: {
     calRole(hero) {
-      return role_zh(hero.role).toString().replace(',', ' ')
+      if (hero.role) {
+        return role_zh(hero.role).toString().replace(',', ' ')
+      } else {
+        return ''
+      }
     },
-    fetchData() {
+    async fetchData() {
       const page = {
-        currentPage: 0,
-        pageSize: 20
+        currentPage: this.listOption.currentPage,
+        pageSize: this.listOption.pageSize
       }
       const params = {
         name: !this.searchOption.search ? null : this.searchOption.search
       }
       getList(Object.assign(page, params)).then(response => {
         this.listOption.legends = response.data.records
+        this.listOption.refreshing = false
       })
     },
     legendDetail(legend) {
@@ -103,18 +97,21 @@ export default {
 
   .search-box {
     width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 999;
-    /*margin-bottom: 10%;*/
+    position: relative;
+    /*z-index: 999;*/
+    /*margin-top: 50px;*/
   }
 
   .hero-box {
     width: 100%;
+    position: relative;
     overflow: auto;
-    margin-top: 15%;
+    /*margin-bottom: 50px;*/
+    /*margin-bottom: 10%;*/
   }
 
   .img {
+    width: 50px;
+    height: 50px;
   }
 </style>

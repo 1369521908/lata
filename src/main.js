@@ -8,6 +8,10 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 // import '@/styles/index.scss' // global css
 
+// vant 主题定制
+// 引入全部样式
+// import 'vant/lib/index.less'
+
 import App from './App'
 import store from './store'
 import router from './router'
@@ -22,9 +26,9 @@ import '@/permission' // permission control
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 
-const vConsole = new Vconsole()
+// const vConsole = new Vconsole()
 
 /**
  * If you don't want to use mock-server
@@ -46,7 +50,7 @@ const vConsole = new Vconsole()
 
 Vue.use(Vant)
 
-Vue.use(vConsole)
+// Vue.use(vConsole)
 
 // 全局注册，使用方法为:this.$axios
 Vue.prototype.$axios = axios

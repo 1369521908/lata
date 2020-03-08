@@ -88,7 +88,10 @@
       </van-col>
     </van-row>
 
-    <span>基本信息</span>
+    <van-cell>
+      <span>基本信息</span>
+    </van-cell>
+
     <!--基本信息-->
     <van-row class="van-cell">
 
@@ -96,8 +99,8 @@
         <div>
 
           <span>移动速度:</span>
-          <span class="hero-attribute">{{ legend.movespeed }}</span>
-          <span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>
+          <span class="hero-attribute">{{ legend.movespeed }}</span><br>
+          <!--<span class="hero-attribute-change"> + {{ legend.movespeed }}/每级</span><br>-->
 
           <span>攻击距离:</span>
           <span class="hero-attribute">{{ legend.attackrange }}</span><br>
@@ -395,7 +398,9 @@ export default {
       }), 'loadingImg')
       this.preViewOption.show = true
 
-      this.preViewOption.name = this.skins[0].name
+      if (this.skins[0].name) {
+        this.preViewOption.name = this.skins[0].name
+      }
     },
     // 图片预览改变
     preViewChange(index) {

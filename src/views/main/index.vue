@@ -1,25 +1,39 @@
 <template>
   <div>
+    <van-nav-bar title="lata" left-text="" :fixed="true" :border="false">
+      <van-icon name="" />
+      <van-icon slot="right" name="ellipsis" />
+    </van-nav-bar>
 
-    <van-row class="dashboard">
-      <transition name="fade">
-        <div v-if="active === 'legend'">
+    <van-row class="container">
+      <transition name="van-fade">
+        <div v-show="active === 'legend'">
           <legends />
         </div>
-        <div v-if="active === 'runes'">
+      </transition>
+      <transition name="van-fade">
+        <div v-show="active === 'runes'">
           <legend-data />
         </div>
-        <div v-if="active === 'summonerSkill'">
+      </transition>
+      <transition name="van-fade">
+        <div v-show="active === 'summonerSkill'">
           <summoner-skill />
         </div>
-        <div v-if="active === 'item'">
+      </transition>
+      <transition name="van-fade">
+        <div v-show="active === 'item'">
           <items />
         </div>
-        <div v-if="active === 'me'">
+      </transition>
+      <transition name="van-fade">
+        <div v-show="active === 'me'">
           <me />
         </div>
       </transition>
     </van-row>
+
+    <!--导航栏-->
     <van-row>
       <van-tabbar v-model="active">
         <van-tabbar-item name="legend" icon="home-o">英雄</van-tabbar-item>
@@ -56,8 +70,20 @@ export default {
 
 <style scoped>
 
-  .dashboard {
-    margin-bottom: 10%;
+  .container {
+    /*margin-bottom: 50px;*/
+    /*margin-top: 45px;*/
+    margin-bottom: calc(45px);
+    margin-top: 45px;
+
+  }
+
+  .van-nav-bar {
+    /*background-color: #1989fa;*/
+  }
+
+  .van-nav-bar__title {
+    /*color: white;*/
   }
 
 </style>

@@ -21,9 +21,9 @@
     </van-cell>
 
     <!--tabs-->
-    <van-tabs v-model="tabOption.active" animated swipeable sticky @click="onChange">
+    <van-tabs v-model="tabOption.active" animated swipeable sticky color="#1989fa" @click="onChange">
       <van-tab title="数据">
-        <legend-data :hero-id="legend.heroId" />
+        <legend-data ref="legendData" :hero-id="legend.heroId" />
       </van-tab>
       <van-tab title="技能">
         <legend-spell :hero-id="legend.heroId" />
@@ -112,8 +112,10 @@ export default {
       })*/
     },
     onChange(name, title) {
-      console.log(name)
-      this.$emit('preViewClose')
+      // 生效, 触发子组件的方法
+      this.$refs.legendData.preViewClose()
+      // 不生效
+      // this.$emit('preViewClose')
     }
   }
 }

@@ -127,7 +127,8 @@
     <!--我方-->
     <van-row class="van-cell">
       <van-cell>
-        <span style="color: blue">使用</span>
+        <van-icon name="smile-o" color="blue" size="2rem" />
+        <span style="color: blue;font-size: 1.0rem">使用</span>
         <div v-for="(tip, index) in JSON.parse(legend.allytips || '[]')" :key="index">
           <span v-html="tip" />
         </div>
@@ -137,8 +138,9 @@
     <!--对方-->
     <van-row class="van-cell">
       <van-cell>
-        <span style="color: red">应对</span>
-        <div v-for="(tip, index) in JSON.parse(legend.allytips || '[]')" :key="index">
+        <van-icon name="thumb-circle-o" color="red" size="2rem" />
+        <span style="color: red;font-size: 1.0rem">应对</span>
+        <div v-for="(tip, index) in JSON.parse(legend.enemytips || '[]')" :key="index">
           <span v-html="tip" />
         </div>
       </van-cell>
